@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Favicon-->
+    <link rel="shortcut icon" type="image/x-icon" href="../static/favicon.ico">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- CSSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+
+    <link rel="stylesheet" href="../static/style.css">
+    <title>LED Controller</title>
+</head>
+
+<body>
+    <header>
+        <nav class="grey darken-4" role="navigation">
+            <div class="nav-wrapper">
+                <a class="brand-logo" href="#">LED Controller</a>
+                <ul class="right hide-on-med-and-down">
+                    <li><a href="#master_toggle">Master</a></li>
+                    <li><a href="#sync_strips">Sync</a></li>
+                    <li><a href="#switch_effect_button">Effects</a></li>
+                    <li><a href="#color_button">Color</a></li>
+                    <li><a href="#animation_speed">Parameters</a></li>
+                </ul>
+
+                <ul id="nav-mobile" class="sidenav">
+                    <li><a href="#master">Master</a></li>
+                    <li><a href="#sync_strips">Effects</a></li>
+                    <li><a href="#switch_effect_button">Effects</a></li>
+                    <li><a href="#color_button">Color</a></li>
+                    <li><a href="#animation_speed">Parameters</a></li>
+                </ul>
+
+                <a href="#" data-target="nav-mobile" class="sidenav-trigger  white-text text-accent-4"><i class="material-icons">menu</i></a>
+            </div>
+        </nav>
+
+        <div id="index-banner" class="parallax-container">
+            <div class="section no-pad-bot">
+                <div class="container">
+                    <h1 class="white-text header center">LED there be light...</h1>
+                </div>
+            </div>
+            <div class="parallax"><img src="../static/matrix.jpg" alt="matrix"></div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="row">
+            <h2 class="col s12 center mt-10 mb-10" id="master_toggle">Master Switch</h2>
+            <h3 class="col s12 center mt-10 mb-10">Status: {{master_toggle}}</h3>
+
+            {% if  master_toggle   == 'on' %}
+            <form method="POST" class="col s12 center mt-10 mb-10">
+                <button class=" red btn waves-effect waves-light" type="submit" name="master_toggle" value="off">OFF</button>
+            </form>
+            {% else %}
+            <form method="POST" class="col s12 center mt-10 mb-10">
+                <button class="green btn waves-effect waves-light" type="submit" name="master_toggle" value="on">ON</button>
+            </form>
+            {% endif %}
+
+            {% if  master_toggle   == 'on' %}
+            <div class="col s12 divider"></div>
+            <h2 class="col s12 center mb-10" id="sync_strips">Sync strips</h2>
+            <form method="POST" class="col s12 center mt-10 mb-10">
+                <button class="green btn waves-effect waves-light" type="submit" name="sync_strips" value="sync">Sync</button>
+            </form>
+            <div class="col s12 divider"></div>
+            <h2 class="col s12 center mb-10" id="switch_effect_button">Effects</h2>
+            <h3 class="col s12 center mt-10">Current: {{current_effect}}</h3>
+
+            <form class="center" method="POST">
+                <button class="blue btn waves-effect waves-light" type="submit" name="switch_effect_button" value="prev">PREV</button>
+                <button class="blue btn waves-effect waves-light" type="submit" name="switch_effect_button" value="next">NEXT</button>
+            </form>
+
+            <h2 class="col s12 center mt-50 mb-10" id="color_button">Color</h2>
+            <h3 class="col s12 center mt-10">Current: {{color}}</h3>
+            <form method="POST" class="col s12 center row">
+                <button class="col s3 m2 red btn waves-effect waves-light btn-large" type="submit" name="color_button" value="red"></button>
+                <button class="col s3 m2 yellow btn waves-effect waves-light btn-large" type="submit" name="color_button" value="yellow"></button>
+                <button class="col s3 m2 green btn waves-effect waves-light btn-large" type="submit" name="color_button" value="green"></button>
+                <button class="col s3 m2 cyan btn waves-effect waves-light btn-large" type="submit" name="color_button" value="cyan"></button>
+                <button class="col s4 m2 blue btn waves-effect waves-light btn-large" type="submit" name="color_button" value="blue"></button>
+                <button class="col s4 m2 purple accent-4 btn waves-effect waves-light btn-large" type="submit" name="color_button" value="magenta"></button>
+                <button class="col s4 m12 white btn waves-effect waves-light btn-large" type="submit" name="color_button" value="white"></button>
+            </form>
+
+            <div class="input-field col s6 offset-s3 mt-50">
+                <form class="center" method="POST" id="custom_color">
+                    <p>R,G,B or #RRGGBB</p>
+                    <input class="validate mt-10" name="custom_color">
+                    <button class="left blue btn waves-effect waves-light" type="submit">Submit</button>
+                </form>
+            </div>
+
+            <div class="col s12 divider"></div>
+            <h2 class="col s12 center mt-50 mb-10" id="animation_speed">Parameters</h2>
+
+            <h3 class="col s12 center mt-50 mb-10">Animation speed {{animation_speed}}</h3>
+
+            <div class="input-field col s6 offset-s3 mt-10">
+                <form method="POST">
+                    <input class="validate mt-10" name="animation_speed">
+                    <button class="left blue btn waves-effect waves-light" type="submit">Submit</button>
+                </form>
+            </div>
+
+            <h3 class="col s12 center mt-50 mb-10">Color train params</h3>
+
+            <h4 class="col s12 center mb-10" id="color_train_lit">Color train lit {{color_train_lit}}</h4>
+
+            <div class="input-field col s6 offset-s3 mt-10">
+                <form method="POST">
+                    <input class="validate mt-10" name="color_train_lit">
+                    <button class="left blue btn waves-effect waves-light" type="submit">Submit</button>
+                </form>
+            </div>
+
+            <h4 class="col s12 center mb-10" id="color_train_gap">Color train gap {{color_train_gap}}</h4>
+
+            <div class="input-field col s6 offset-s3 mt-10">
+                <form method="POST">
+                    <input class="validate mt-10" name="color_train_gap">
+                    <button class="left blue btn waves-effect waves-light" type="submit">Submit</button>
+                </form>
+            </div>
+
+
+
+            <h3 class="col s12 center mt-50 mb-10">Strobe params</h3>
+
+            <h4 class="col s12 center mb-10" id="strobe_off_time">Strobe off time {{strobe_off_time}}</h4>
+
+            <div class="input-field col s6 offset-s3 mt-10">
+                <form method="POST">
+                    <input class="validate mt-10" name="strobe_off_time">
+                    <button class="left blue btn waves-effect waves-light" type="submit">Submit</button>
+                </form>
+            </div>
+
+            <h4 class="col s12 center mb-10" id="strobe_on_time">Strobe on time {{strobe_on_time}}</h4>
+
+            <div class="input-field col s6 offset-s3 mt-10">
+                <form method="POST">
+                    <input class="validate mt-10" name="strobe_on_time">
+                    <button class="left blue btn waves-effect waves-light" type="submit">Submit</button>
+                </form>
+            </div>
+
+            <h3 class="col s12 center mt-50 mb-10">Random lit</h3>
+            <h4 class="col s12 center mb-10" id="random_lights_chance">Chance {{random_lights_chance}}</h4>
+
+            <div class="input-field col s6 offset-s3 mt-10">
+                <form method="POST">
+                    <input class="validate mt-10" name="random_lights_chance">
+                    <button class="left blue btn waves-effect waves-light" type="submit">Submit</button>
+                </form>
+            </div>
+
+            <h3 class="col s12 center mt-50 mb-10">Shift Back Forward</h3>
+            <h4 class="col s12 center mb-10" id="shift_back_forward">Amount {{shift_back_forward}}</h4>
+
+            <div class="input-field col s6 offset-s3 mt-10">
+                <form method="POST">
+                    <input class="validate mt-10" name="shift_back_forward">
+                    <button class="left blue btn waves-effect waves-light" type="submit">Submit</button>
+                </form>
+            </div>
+            <div class="col s12 divider"></div>
+
+            {% endif %}
+            <h2 class="col s12 center mt-50 mb-10">Shutdown</h2>
+            <h3 class="col s12 center mt-50 mb-10" id="shutdown_client_button">Client only</h3>
+            <form method="POST" class="col s12 center mt-10">
+                <button class="red btn waves-effect waves-light btn-large" type="submit" name="shutdown_client_button" value="down">SHUTDOWN CLIENTS</button>
+            </form>
+
+            <h3 class="col s12 center mt-50 mb-10" id="shutdown_all_button">Server and Clients</h3>
+            <form method="POST" class="col s12 center mt-10">
+                <button class="red btn waves-effect waves-light btn-large" type="submit" name="shutdown_all_button" value="down">SHUTDOWN ALL</button>
+            </form>
+        </div>
+    </main>
+
+    <p id="scrolling" style="display: none">{{ scroll }}</p>
+
+    <!--  Scripts-->
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="../static/init.js"></script>
+    <!-- Don't forget to host init.js! -->
+    <script>
+        $(document).ready(function() {
+            var scrolling_text = $("#scrolling").text();
+            console.log(scrolling_text);
+
+            $([document.documentElement, document.body]).animate({
+                scrollTop: $("#" + scrolling_text).offset().top
+            }, 500);
+        });
+
+    </script>
+
+</body>
+
+</html>
